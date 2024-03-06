@@ -50,9 +50,15 @@ You can create a virtual environment or use Python via Docker. I'm using Python 
 # Create a virtual environment
 python -m venv .venv
 
+# Activate it
+source .venv/bin/activate
+
 # Installing the packages
 pip install -r requirements.txt
 ```
+
+Here is a quick video of the step 4:
+https://github.com/alancota-noname/mulesoft-connected-app/assets/147883780/8cca9057-f146-4296-b686-35159be4a97d
 
 ### **Step 5**: running the script
 
