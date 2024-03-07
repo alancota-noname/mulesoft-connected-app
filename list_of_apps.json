@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "client_id": "63290586dbca4869992fbb4365ba74f7",
+            "org_id": "a1737950-4b4a-4c97-ad17-8d1a930d2f80",
+            "owner_org_id": "a1737950-4b4a-4c97-ad17-8d1a930d2f80",
+            "owner_user_id": "cb7d842f-2633-474d-afc9-6887d4c619ae",
+            "client_name": "NonameClientApp",
+            "client_secret": "FDe70d319cDf4251a9702ED052Fd7183",
+            "public_keys": [],
+            "redirect_uris": [],
+            "grant_types": [
+                "client_credentials"
+            ],
+            "scopes": [
+                "manage:api_policies",
+                "read:api_policies",
+                "read:api_configuration",
+                "read:applications",
+                "download:applications",
+                "read:cloudhub_networking",
+                "read:organization",
+                "view:environment",
+                "profile",
+                "edit:exchange"
+            ],
+            "enabled": true,
+            "audience": "internal",
+            "client_uri": null,
+            "policy_uri": null,
+            "tos_uri": null,
+            "cert_expiry": null,
+            "generate_iss_claim_without_token": true,
+            "arc_namespace": null
+        }
+    ],
+    "total": 1
+}

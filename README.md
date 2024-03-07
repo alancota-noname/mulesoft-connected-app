@@ -12,7 +12,7 @@ This is a personal project and it's not a supported Noname product.
 
 I mean, why not? 😎
 
-![1709758280323](image/README/1709758280323.png)
+![1709758280323](docs/image/README/1709758280323.png)
 
 ## Running the script
 
@@ -69,4 +69,12 @@ The script will execute the following tasks:
 3. Create a new Connected App by calling the Anypoint Accounts REST API
 4. Print the new Connected App credentials
 
+You should see a similar output if the script was able to create your new connected app:
+
+![1709768853446](docs/image/README/1709768853446.png)
+
 Here is an example of the script in action:
+![script_in_action.gif](docs/image/README/script_in_action.gif)
+
+And here is the newly created app inside Anypoint Access Management:
+![connected_app_in_mule](docs/image/README/connected_app_in_mule.png)

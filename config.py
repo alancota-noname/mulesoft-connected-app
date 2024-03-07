@@ -13,6 +13,7 @@ class Config:
 	ANYPOINT_PASSWORD = config("ANYPOINT_PASSWORD", default=None)
 	NONAME_CLIENT_NAME = config("NONAME_CLIENT_NAME", default=None)
 	CREATE = config("CREATE", cast=bool, default=True)
+	DELETE_APPS = config("DELETE_APPS", cast=bool, default=False)
 
 
 

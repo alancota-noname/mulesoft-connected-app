@@ -1,9 +1,12 @@
 import logging
 
 from rich.logging import RichHandler
+from config import settings
 
 
-def config_logger(log_level: int) -> logging.Logger:
+def config_logger() -> logging.Logger:
+	log_level = logging.DEBUG if settings.DEBUG else logging.INFO
+
 	# Create a logger
 	logger = logging.getLogger()
 	logger.setLevel(log_level)
@@ -22,3 +25,6 @@ def config_logger(log_level: int) -> logging.Logger:
 	stream_handler.setLevel(log_level)
 
 	return logger
+
+
+logger = config_logger()
