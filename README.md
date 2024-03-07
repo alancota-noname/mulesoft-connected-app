@@ -76,5 +76,7 @@ You should see a similar output if the script was able to create your new connec
 Here is an example of the script in action:
 ![script_in_action.gif](docs/image/README/script_in_action.gif)
 
+It goes without saying that the client credentials shown above belongs to a test environment that no longer exists. =)
+
 And here is the newly created app inside Anypoint Access Management:
 ![connected_app_in_mule](docs/image/README/connected_app_in_mule.png)
