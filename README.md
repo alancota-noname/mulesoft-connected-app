@@ -82,5 +82,4 @@ Here is an example of the script in action:
 It goes without saying that the client credentials shown above belongs to a test environment that no longer exists. =)
 
 And here is the newly created app inside Anypoint Access Management:
-
-![1709913980161](image/README/1709913980161.png)
+![1709913980161](docs/image/README/1709913980161.png)
