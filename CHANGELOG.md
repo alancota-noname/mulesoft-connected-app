@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1
+## [0.1.1](https://github.com/alancota-noname/mulesoft-connected-app/releases/tag/v0.1.1)
 
 - Added new config keys for the datafiles and output directories
 - Moved datafiles to a specific directory
