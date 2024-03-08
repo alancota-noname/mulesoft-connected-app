@@ -38,6 +38,9 @@ mv .env.example .env
 ANYPOINT_USERNAME=max_the_mule
 ANYPOINT_PASSWORD=your_password
 
+# Add your Organization Ids separated by comma
+ANYPOINT_ORG_ID=9bc61119-70b9-44e6-81c3-f2a1a9aff8d0,1346c41d-5b17-430b-81b6-ab08072d92de
+
 # Name of the Client App that will be created
 NONAME_CLIENT_NAME=NonameClientApp
 ```
@@ -79,4 +82,5 @@ Here is an example of the script in action:
 It goes without saying that the client credentials shown above belongs to a test environment that no longer exists. =)
 
 And here is the newly created app inside Anypoint Access Management:
-![connected_app_in_mule](docs/image/README/connected_app_in_mule.png)
+
+![1709913980161](image/README/1709913980161.png)

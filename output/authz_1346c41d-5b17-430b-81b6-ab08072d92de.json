@@ -1,0 +1,216 @@
+{
+    "scopes": [
+        {
+            "scope": "read:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "manage:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "view:environment",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "download:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "manage:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "read:cloudhub_networking",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de"
+            }
+        },
+        {
+            "scope": "edit:exchange",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de"
+            }
+        },
+        {
+            "scope": "read:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "download:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "read:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "read:api_configuration",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "read:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "profile",
+            "context_params": {}
+        },
+        {
+            "scope": "read:api_configuration",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "read:organization",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de"
+            }
+        },
+        {
+            "scope": "view:environment",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "4d2fe70a-18e6-4b68-ba82-990ec4fde394"
+            }
+        },
+        {
+            "scope": "read:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "manage:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "view:environment",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "download:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "manage:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "read:cloudhub_networking",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de"
+            }
+        },
+        {
+            "scope": "edit:exchange",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de"
+            }
+        },
+        {
+            "scope": "read:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "download:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "read:api_policies",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "read:api_configuration",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "read:applications",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "profile",
+            "context_params": {}
+        },
+        {
+            "scope": "read:api_configuration",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        },
+        {
+            "scope": "read:organization",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de"
+            }
+        },
+        {
+            "scope": "view:environment",
+            "context_params": {
+                "org": "1346c41d-5b17-430b-81b6-ab08072d92de",
+                "envId": "dc66227e-c386-42e1-a443-799b0cdf39c7"
+            }
+        }
+    ]
+}

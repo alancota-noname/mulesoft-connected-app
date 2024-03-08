@@ -1,59 +1,209 @@
 import json
-import os
-from dataclasses import asdict, dataclass
-from typing import List
+from dataclasses import asdict
+from typing import Dict, List
 
 import requests
 
 from config import settings
 from log import logger
+from models import (
+    ConnectedApp,
+    Environment,
+    Organization,
+    Token,
+)
 
 
-@dataclass
-class AnypointBasicCredentials:
-    username: str
-    password: str
+def get_environments(
+    token: Token,
+    organizations: List[str],
+) -> List[Organization]:
 
+    results = []
+    for org in organizations:
 
-@dataclass
-class ConnectedApp:
-    client_name: str
-    scopes: List[str]
-    enabled: bool
-    audience: str
-    public_keys: List[str]
-    redirect_uris: List[str]
-    grant_types: List[str]
-    generate_iss_claim_without_token: bool
+        url = f"{settings.ANYPOINT_URL}{settings.ANYPOINT_ENVIRONMENTS_API}"
+        url = url.replace("orgId", org)
 
+        params = {
+            "limit": 500,
+            "offset": 0,
+        }
 
-@dataclass
-class Token:
-    access_token: str
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token.access_token}",
+        }
 
+        logger.info(f"Getting all environments from the Anypoint Platform at {url}...")
+        logger.debug(
+            f"\n==\nAnypoint Get Environments parameters: \n\t--> URL: {url} \n\t--> Headers: {headers}\n==\n"
+        )
 
-# @dataclass
-# class AnypointClient:
-#     credentials: AnypointBasicCredentials
-#     client_name: str
-#     scopes: List[str]
-#     url: str
-#     access_token: str | None
+        r = requests.get(url=url, params=params, headers=headers)
+        environments = r.json()["data"]
+        logger.info(f"Successfully obtained {len(environments)} environments")
+        logger.debug(f"\n==\nAnypoint Environments \n\t--> {environments}\n==\n")
+
+        envs = []
+        for environment in environments:
+            envs.append(
+                Environment(
+                    id=environment["id"],
+                    name=environment["name"],
+                    client_id=environment["clientId"],
+                    is_production=environment["isProduction"],
+                    type=environment["type"],
+                    org_id=environment["organizationId"],
+                )
+            )
+
+        results.append(Organization(org_id=org, environments=envs))
+
+        logger.debug(f"\n==\nAnypoint Get Lisf of Environments: \n\t-->{results}\n==\n")
+
+    return results
 
 
 def load_scopes(filename: str = settings.SCOPES_SAMPLE_FILE) -> List[str]:
     logger.info(f"Loading scopes from file {filename}...")
-    with open(
-        os.path.join(os.path.dirname(os.path.realpath(__file__)), filename),
-        "r",
-    ) as f:
-        config = json.load(f)
+
+    scopes_file = open(settings.DATAFILE_DIRECTORY + "/" + filename, "r")
+    config = json.load(scopes_file)
+    scopes_file.close()
 
     scopes = []
+    org_only = []
+    env_only = []
+    no_context = []
     for scope in config["data"]:
-        scopes.append(scope["scope"])
 
-    return scopes
+        logger.debug(f"\n==\nScope \n\t--> name: {scope}")
+
+        context_params = scope.get("context_params", {})
+        org_present = "org" in context_params
+        env_present = "envId" in context_params
+
+        name = scope.get("scope", None)
+
+        if name is None:
+            logger.warning(f"Scope {scope} does not have a name")
+            continue
+        else:
+            scopes.append(name)
+
+            if org_present and env_present:
+                logger.debug(f"Scope {scope} has both 'org' and 'envId'")
+            elif org_present:
+                org_only.append(name)
+            elif env_present:
+                env_only.append(name)
+            else:
+                no_context.append(name)
+
+    logger.debug(
+        f"Final results: \n\t--> scopes: {scopes}\n\t--> env_only: {env_only}\n\t--> org_only: {org_only}\n\t--> no_context: {no_context}\n==\n"
+    )
+
+    return scopes, org_only, env_only, no_context
+
+
+def prepare_connected_app_payload(
+    scopes: List[str], client_name: str = settings.NONAME_CLIENT_NAME
+) -> ConnectedApp:
+    logger.info("Preparing the Connected App payload...")
+
+    payload = ConnectedApp(
+        client_name=client_name,
+        public_keys=[],
+        redirect_uris=[],
+        grant_types=["client_credentials"],
+        scopes=scopes,
+        enabled=True,
+        audience="internal",
+        generate_iss_claim_without_token=True,
+    )
+
+    logger.debug(f"\n==\nAnypoint Create App Payload: \n\t-->{payload}\n==\n")
+
+    return payload
+
+
+def prepare_scope_authorizations_payload(
+    scopes: List[str],
+    org_only: List[str],
+    no_context: List[str],
+    organizations: List[Organization],
+) -> Dict[str, List[Dict[str, str]]]:
+    logger.info("Authorizing scopes for the environments...")
+
+    payload = {}
+    total_scopes = len(scopes)
+    total_orgs = len(organizations)
+
+    logger.debug(
+        f"\n==\nAuthZ Stats: \nOrganizations\t\t-->{total_orgs} \nScopes\t\t-->{total_scopes}\n==\n"
+    )
+
+    # Loop through each environment and create a list of scopes to authorize
+    o: int = 0
+    for organization in organizations:
+        o += 1
+        total_envs = len(organization.environments)
+        logger.debug(f"[{o}/{total_orgs}] O:[{organization.org_id}]\n")
+        e: int = 0
+        entries = []
+        for environment in organization.environments:
+            e += 1
+            logger.debug(
+                f"--> [{o}/{total_orgs}] O:[{organization.org_id}] \n\t--> [{e}/{total_envs}] E:[{environment.id}]"
+            )
+            s: int = 0
+            for scope in scopes:
+                data = {}
+                s += 1
+                logger.debug(f"\t\t--> [{s}/{total_scopes}] S:[{scope}] ")
+                if scope in no_context:
+                    data = {"scope": scope, "context_params": {}}
+
+                elif scope in org_only:
+                    data = {
+                        "scope": scope,
+                        "context_params": {
+                            "org": organization.org_id,
+                        },
+                    }
+                else:
+                    data = {
+                        "scope": scope,
+                        "context_params": {
+                            "org": organization.org_id,
+                            "envId": environment.id,
+                        },
+                    }
+
+                entries.append(data)
+            logger.debug(
+                f"\n[{o}/{total_orgs}] Org [{organization.org_id}] - [{e}/{total_envs}] E:[{environment.id}] DONE"
+            )
+            # Save the payload for the org
+            payload[organization.org_id] = entries
+            logger.debug(
+                f"[{o}/{total_orgs}] Org [{organization.org_id}] payload: {payload[organization.org_id]} DONE"
+            )
+            logger.debug(f"Processing next organization [{o+1}]")
+        logger.debug(
+            f"[{e}/{total_envs}] Envs - [{o}/{total_orgs}] Org [{organization.org_id}] processed"
+        )
+        logger.debug(f"Partial payload: \n{payload}\n")
+    logger.debug(f"{o} Organizations {organization.org_id} processed")
+
+    logger.debug(f"\n==\nFinal payload: \n\t--> {payload}\n==")
+
+    output_file = open(settings.OUTPUT_DIRECTORY + "/authz_payload.json", "w")
+    output_file.write(json.dumps(payload, indent=4))
+
+    return payload
 
 
 def authenticate(username: str, password: str) -> Token:
@@ -107,6 +257,40 @@ def create_connected_app(token: Token, payload: ConnectedApp) -> dict:
         return r.json()
 
 
+def authorize_connected_app(token: Token, data: dict, app_id: str) -> None:
+
+    for org_id in data.keys():
+        url = f"{settings.ANYPOINT_URL}{settings.ANYPOINT_AUTHORIZE_SCOPES_API}"
+        url = url.replace("orgId", org_id)
+        url = url.replace("clientId", app_id)
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token.access_token}",
+        }
+
+        payload = {
+            "scopes": data[org_id],
+        }
+
+        output_file = open(settings.OUTPUT_DIRECTORY + f"/authz_{org_id}.json", "w")
+        output_file.write(json.dumps(payload, indent=4))
+        # with open(f"authz_{org_id}.json", "w") as f:
+        #     # Write data to the file
+        #     f.write(json.dumps(payload, indent=4))
+
+        logger.debug(
+            f"\n==\nAuthorizing the new Connected App with the parameters: \n\t--> URL: {url} \n\t--> Headers: {headers}\n\t--> Payload: {payload}\n==\n"
+        )
+
+        r = requests.put(url=url, headers=headers, data=json.dumps(payload))
+
+        if r.status_code != 204:
+            logger.warning(f"Failed to autorize the new noname client: {r.status_code}")
+        else:
+            logger.info("Noname Connected App successfully authorized!")
+
+
 def get_all_connected_apps(access_token: str) -> List[dict]:
     logger.info("Fetching a list of all the Connected Apps")
 
@@ -134,9 +318,8 @@ def get_all_connected_apps(access_token: str) -> List[dict]:
         logger.info("List of connected apps successfully retrieved")
         logger.debug(f"\n==\nConnected Apps: \n{json.dumps(r.json(), indent=4)}\n==\n")
 
-        with open("list_of_apps.json", "w") as f:
-            # Write data to the file
-            f.write(json.dumps(r.json(), indent=4))
+        output_file = open(settings.OUTPUT_DIRECTORY + "/list_of_apps.json", "w")
+        output_file.write(json.dumps(r.json(), indent=4))
 
         return r.json()["data"]
 
